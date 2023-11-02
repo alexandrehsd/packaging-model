@@ -1,19 +1,20 @@
 FROM python:3.8
 
-# copy the requirements file
+# Copy the requirements file
 COPY ./requirements.txt /webapp/requirements.txt
 
-COPY roberta-sequence-classification-9.onnx /webapp
+# Install dependencies
+RUN pip install -r /webapp/requirements.txt
 
-# sets /webapp as current working dir
+# Set /webapp as the current working directory
 WORKDIR /webapp
 
-# install dependencies
-RUN pip install -r requirements.txt
+# Copy the ONNX model to a separate directory (if it's a model)
+COPY webapp/models/roberta-sequence-classification-9.onnx /webapp/models/
 
-# copy local content of webapp into the container
-COPY webapp/* /webapp
+# Copy local content of webapp into the container
+COPY webapp/app.py /webapp/app.py
 
-ENTRYPOINT [ "python" ]
+ENTRYPOINT ["python"]
 
-CMD [ "app.py" ]
+CMD ["app.py"]
