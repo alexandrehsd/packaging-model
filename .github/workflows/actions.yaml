@@ -24,6 +24,10 @@ jobs:
       run: 
         az config set extension.use_dynamic_install=yes_without_prompt
 
+    - name: install az manually
+      run:
+        az extension add -n azure-cli-ml
+
     - name: attach workspace
       run: 
         az ml folder attach -w "pratical-mlops" -g "practical-mlops-book"
